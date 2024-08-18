@@ -1,0 +1,4 @@
+.v-btn:focus {
+  outline: none; /* Removes the default outline */
+  box-shadow: none; /* Removes the default box-shadow */
+}
