@@ -15,13 +15,13 @@ pub fn initialize_note_file() -> Result<String, String> {
 
 #[tauri::command]
 pub fn get_all_notes(state: State<AppState>) -> Vec<Note> {
-  let all_notes = state.all_notes.lock().unwrap();
+  let all_notes = state.lock().unwrap();
   all_notes.clone()
 }
 
 #[tauri::command]
 pub fn add_new_note(state: State<AppState>, title: String, description: String) -> Result<String, String> {
-  let mut all_notes = state.all_notes.lock().unwrap();
+  let mut all_notes = state.lock().unwrap();
 
   match Note::new(&mut all_notes, &title, &description) {
     Ok(_) => {
@@ -36,7 +36,7 @@ pub fn add_new_note(state: State<AppState>, title: String, description: String) 
 
 #[tauri::command]
 pub fn delete_note(state: State<AppState>, note_id: u8) -> Result<String, String> {
-  let mut all_notes = state.all_notes.lock().unwrap();
+  let mut all_notes = state.lock().unwrap();
 
   match Note::delete_note(&mut all_notes, note_id) {
     Ok(_) => {
@@ -51,7 +51,7 @@ pub fn delete_note(state: State<AppState>, note_id: u8) -> Result<String, String
 
 #[tauri::command]
 pub fn update_title(state: State<AppState>, title: String, note_id: u8) -> Result<String, String> {
-  let mut all_notes = state.all_notes.lock().unwrap();
+  let mut all_notes = state.lock().unwrap();
 
   for note in all_notes.iter_mut() {
     if note.id == note_id {
@@ -67,7 +67,7 @@ pub fn update_title(state: State<AppState>, title: String, note_id: u8) -> Resul
 
 #[tauri::command]
 pub fn update_description(state: State<AppState>, description: String, note_id: u8) -> Result<String, String> {
-  let mut all_notes = state.all_notes.lock().unwrap();
+  let mut all_notes = state.lock().unwrap();
 
   for note in all_notes.iter_mut() {
     if note.id == note_id {
@@ -83,7 +83,7 @@ pub fn update_description(state: State<AppState>, description: String, note_id: 
 
 #[tauri::command]
 pub fn search_notes(state: State<AppState>, search_text: &str) -> Vec<Note> {
-  let all_notes = state.all_notes.lock().unwrap();
+  let all_notes = state.lock().unwrap();
   let results = Note::search_notes(&all_notes, search_text);
   results
 }

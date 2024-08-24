@@ -5,24 +5,22 @@ mod file_handler;
 mod commands;
 mod errors;
 mod notes;
+mod test_commands;
 
+use std::sync::Arc;
 use std::sync::Mutex;
 use crate::notes::Note;
 
-pub struct AppState {
-  all_notes: Mutex<Vec<Note>>, 
-}
+
+type AppState = Arc<Mutex<Vec<Note>>>;
 
 fn main() {
-  // initialize the application state
-  let app_state = AppState {
-    all_notes: Mutex::new(Vec::new()),
-  };
+  let app_state = Arc::new(Mutex::new(Vec::new()));
 
   // read notes from file
   {
     if file_handler::note_file_exists() {
-      let mut all_notes = app_state.all_notes.lock().unwrap();
+      let mut all_notes = app_state.lock().unwrap();
 
       *all_notes = match file_handler::read_note_file() {
         Ok(notes) => notes,

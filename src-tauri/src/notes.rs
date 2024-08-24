@@ -4,7 +4,7 @@ use chrono::DateTime;
 
 use crate::errors::NoteError;
 
-#[derive(Serialize, Deserialize, Clone)]
+#[derive(Serialize, Deserialize, Clone, Debug)]
 pub struct Note {
     pub id: u8,
     pub title: String,

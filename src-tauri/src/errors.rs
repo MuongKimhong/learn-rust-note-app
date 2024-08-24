@@ -1,7 +1,7 @@
-use std::fmt;
-use thiserror;
+use serde::{Deserialize, Serialize};
 
-#[derive(Debug, thiserror::Error)]
+#[derive(Debug, thiserror::Error, Serialize, Deserialize)]
+#[serde(tag = "type", content = "message")]
 pub enum NoteError {
     #[error("Note with the same title already exists.")]
     NoteAlreadyExists,
@@ -10,10 +10,11 @@ pub enum NoteError {
     #[error("Invalid Description.")]
     InvalidDescription,
     #[error("Note Does not exist.")]
-    NoteDoesNotExist
+    NoteDoesNotExist,
 }
 
-#[derive(Debug, thiserror::Error)]
+#[derive(Debug, thiserror::Error, Serialize, Deserialize)]
+#[serde(tag = "type", content = "message")]
 pub enum FileError {
     #[error("Failed to create note file at home directory.")]
     CreateNoteFile,
